@@ -184,6 +184,7 @@ void Tree::printAll(Node* node)
 		cout << setw(13) << left << "Author(s): " << node->books[i]->author << endl;
 		cout << setw(13) << left << "ISBN: " << node->books[i]->isbn << endl;
 		cout << setw(13) << left << "Year: " << node->books[i]->publication_year << endl;
+		cout << "-----------------------------------------------------" << endl;
 	}
 	for (int i = 0; i < node->children.size(); i++) {
 		printAll(node->children[i]);
@@ -226,7 +227,6 @@ void Tree::print_helper(string padding, string pointer, Node* node) //helper met
 int Tree::exportData(Node* node, ofstream& file)
 {
 	int count = 0;
-	cout << "Title,Author,ISBN,Publication Year,Category,Total Copies,Available Copies" << endl;
 	for (int i = 0; i < node->books.size(); i++) {
 		file << node->books[i]->title << ","
 			 << node->books[i]->author << ","
