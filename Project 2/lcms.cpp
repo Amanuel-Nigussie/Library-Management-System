@@ -77,13 +77,30 @@ void LCMS::exportData(string path)     //export all books to a given file
 			delete temp->at(0);
 			temp->erase(0);
 			temp->shrink_to_fit();
-			count = libTree->exportData(p, zfile);
+			count += libTree->exportData(p, zfile);
 
 			for (int i = 0; i < p->children.size(); i++)
 				temp->push_back(p->children[i]);
 		}
 	}
-	
+	delete temp;
 	zfile.close();
+	cout << count << " records have been successfully exported to " << path << endl;
 	
+}
+//============================================================================
+
+void LCMS::findAll(string category) //display all books of a category
+{
+	Node* znode = libTree->getNode(category);
+	if (znode == NULL) {
+		throw runtime_error("Category not found");
+	}
+    libTree->printAll(znode);	
+}
+//============================================================================
+
+void LCMS::findBook(string bookTitle) //Find a given book and display its details
+{
+
 }
