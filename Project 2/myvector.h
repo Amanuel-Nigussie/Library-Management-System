@@ -1,8 +1,8 @@
 //============================================================================
 // Name         : myvector.h
-// Author       : 
+// Author       : Amanuel Nigussie Demeke
 // Version      : 1.0
-// Date Created : 
+// Date Created : April 06, 2024
 // Date Modified:
 // Description  : Vector implementation in C++
 //============================================================================
