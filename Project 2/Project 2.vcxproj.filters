@@ -44,9 +44,6 @@
     <ClCompile Include="lcms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="myvector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
