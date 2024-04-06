@@ -9,13 +9,15 @@
 
 #include "borrower.h"
 
-Borrower::Borrower(string name, string id) {
+Borrower::Borrower(string name, string id) 
+{
 	this->name = name;
 	this->id = id;
 }
 //============================================================================
 
-void Borrower::listBooks() {
+void Borrower::listBooks() 
+{
 	cout << "Books borrowed by " << name << "( " << id << " ): " << endl;
 	for (int i = 0; i < books_borrowed.size(); i++) {
 		cout << i << ": " << books_borrowed[i]->title << endl;

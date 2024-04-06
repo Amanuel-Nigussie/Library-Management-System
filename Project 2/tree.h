@@ -1,11 +1,12 @@
 ﻿//============================================================================
-// Name         : 
-// Author       : 
-// Version      : 
-// Date Created : 
+// Name         : Tree.h
+// Author       : Amanuel Nigussie Demeke
+// Version      : 1.0
+// Date Created : April 06, 2024
 // Date Modified:
 // Description  : 
 //============================================================================
+
 #ifndef _TREE_H
 #define _TREE_H
 #include<string>

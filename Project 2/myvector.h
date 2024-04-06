@@ -40,6 +40,7 @@ public:
 	void shrink_to_fit();			//Reduce vector capacity to fit its size
 };
 //========================================
+
 template <typename T>
 MyVector<T>::MyVector()
 {
@@ -48,6 +49,7 @@ MyVector<T>::MyVector()
 	v_capacity = 0;
 }
 //========================================
+
 template <typename T>
 MyVector<T>::MyVector(int cap)
 {
@@ -56,6 +58,7 @@ MyVector<T>::MyVector(int cap)
 	v_capacity = cap;
 }
 //========================================
+
 template <typename T>
 MyVector<T>::MyVector(const MyVector& other)
 {
@@ -64,30 +67,35 @@ MyVector<T>::MyVector(const MyVector& other)
 	this->v_capacity = other->v_capacity;
 }
 //========================================
+
 template <typename T>
 MyVector<T>::~MyVector()
 {
 	delete[] data;
 }
 //========================================
+
 template <typename T>
 int MyVector<T>::size() const
 {
 	return(v_size);
 }
 //========================================
+
 template <typename T>
 int MyVector<T>::capacity() const
 {
 	return(v_capacity);
 }
 //========================================
+
 template <typename T>
 bool MyVector<T>::empty() const
 {
 	return(v_size == 0);
 }
 //========================================
+
 template <typename T>
 void MyVector<T>::push_back(T element)
 {
@@ -106,6 +114,7 @@ void MyVector<T>::push_back(T element)
 	v_size++;
 }
 //===============================================================================
+
 template <typename T>
 void MyVector<T>::insert(int index, T element)
 {
@@ -132,6 +141,7 @@ void MyVector<T>::insert(int index, T element)
 	v_size++;    
 }
 //================================================================================
+
 template <typename T>
 void MyVector<T>::erase(int index)
 {
@@ -146,6 +156,7 @@ void MyVector<T>::erase(int index)
 	v_size--;     
 }
 //==================================================================================
+
 template <typename T>
 T& MyVector<T>::operator[](int index)
 {
@@ -156,6 +167,7 @@ T& MyVector<T>::operator[](int index)
 	return data[index];
 }
 //========================================
+
 template <typename T>
 T& MyVector<T>::at(int index)
 {
@@ -166,6 +178,7 @@ T& MyVector<T>::at(int index)
 	return data[index];
 }
 //========================================
+
 template <typename T>
 const T& MyVector<T>::front()
 {
@@ -176,6 +189,7 @@ const T& MyVector<T>::front()
 	return data[0];
 }
 //========================================
+
 template <typename T>
 const T& MyVector<T>::back()
 {
@@ -186,6 +200,7 @@ const T& MyVector<T>::back()
 	return data[v_size - 1];
 }
 //======================================
+
 template <typename T>
 void MyVector<T>::shrink_to_fit()		//Reduce vector capacity to fit its size.
 {

@@ -10,7 +10,8 @@
 #include "book.h"
 #include <iomanip>
 
-Book::Book(std::string title, std::string author, std::string isbn, int publication_year, int total_copies, int available_copies) {
+Book::Book(std::string title, std::string author, std::string isbn, int publication_year, int total_copies, int available_copies) 
+{
 	this->title = title;
 	this->author = author;
 	this->isbn = isbn;
@@ -20,7 +21,8 @@ Book::Book(std::string title, std::string author, std::string isbn, int publicat
 }
 //============================================================================
 
-void Book::display() {
+void Book::display() 
+{
 	cout << "Book found in the library: " << endl;
 	cout << "--------------------------------------------------------------" << endl;
 	cout << setw(18) << left << "Title: " << title << endl;
