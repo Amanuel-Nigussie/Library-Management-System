@@ -21,7 +21,7 @@
     <ClInclude Include="borrower.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="icms.h">
+    <ClInclude Include="lcms.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="myvector.h">

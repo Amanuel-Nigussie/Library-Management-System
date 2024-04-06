@@ -129,7 +129,7 @@
   <ItemGroup>
     <ClInclude Include="book.h" />
     <ClInclude Include="borrower.h" />
-    <ClInclude Include="icms.h" />
+    <ClInclude Include="lcms.h" />
     <ClInclude Include="myvector.h" />
     <ClInclude Include="tree.h" />
   </ItemGroup>
