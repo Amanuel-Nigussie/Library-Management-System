@@ -18,6 +18,7 @@ Book::Book(std::string title, std::string author, std::string isbn, int publicat
 	this->total_copies = total_copies;
 	this->available_copies = available_copies;
 }
+//============================================================================
 
 void Book::display() {
 	cout << "Book found in the library: " << endl;
