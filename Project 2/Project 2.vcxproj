@@ -134,7 +134,12 @@
     <ClInclude Include="tree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="book.cpp" />
+    <ClCompile Include="borrower.cpp" />
+    <ClCompile Include="lcms.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="myvector.cpp" />
+    <ClCompile Include="tree.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
