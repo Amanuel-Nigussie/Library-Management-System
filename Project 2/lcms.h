@@ -1,18 +1,19 @@
 //============================================================================
-// Name         : 
-// Author       : 
-// Version      : 
-// Date Created : 
+// Name         : lcms.h
+// Author       : Amanuel Nigussie Demeke
+// Version      : 1.0
+// Date Created : April 06, 2024
 // Date Modified:
 // Description  : 
 //============================================================================
+
 #ifndef _LCMS_H
 #define _LCMS_H
 #include<string>
 #include "tree.h"
 #include "myvector.h"
 #include "borrower.h"
-//#include "book.h"
+#include "book.h"
 
 class LCMS
 {
