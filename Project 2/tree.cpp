@@ -108,7 +108,6 @@ Node* Tree::getNode(string Path)
 			}
 		}
 		if (!found) {
-			cout << "Node not found" << endl;
 			return NULL;
 		}
 	}
@@ -249,7 +248,7 @@ int Tree::exportData(Node* node, ofstream& file)
 			 << node->books[i]->author << ","
 			 << node->books[i]->isbn << "," 
 			 << node->books[i]->publication_year << "," 
-			 << node->getCategory(node) << node->name << ","
+			 << node->getCategory(node) << ","
 			 << node->books[i]->total_copies << "," 
 			 << node->books[i]->available_copies << endl;
 		count++;
@@ -266,9 +265,13 @@ Book* Tree::searchBook(Node* node , string bookTitle)
 	}
 
 	for (int i = 0; i < node->children.size(); i++) {
-		searchBook(node->children[i], bookTitle);
+		zbook = searchBook(node->children[i], bookTitle);
+		if (zbook != NULL) {
+			return zbook;
+		}
 	}
 
 	return NULL;
 }
 //============================================================================
+

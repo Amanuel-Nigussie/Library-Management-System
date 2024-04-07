@@ -33,6 +33,7 @@ int LCMS::import(string path) //import books from a csv file
 	}
 
 	string line;
+	getline(zfile, line); // skip the first line
 	while (getline(zfile, line)) {
 
 		stringstream ss(line);
@@ -74,9 +75,14 @@ int LCMS::import(string path) //import books from a csv file
 		
 		Node* znode = libTree->createNode(zcategory);
 		znode->books.push_back(zbook);
+		while (znode != NULL) {
+			libTree->updateBookCount(znode, 1);
+			znode = znode->parent;
+		}
 		count++;
 	}
 	zfile.close();
+	cout << count << " records have been successfully imported from " << path << endl;
 	return count;
 }
 //============================================================================
@@ -136,25 +142,23 @@ void LCMS::findBook(string bookTitle) //Find a given book and display its detail
 
 void LCMS::addBook()
 {
-	string ztitle, zauthor, zisbn, zcategory;
-	int zpublicationYear, ztotalCopies, zavailableCopies;
-
+	string ztitle, zauthor, zisbn, zcategory, zpublicationYear, ztotalCopies, zavailableCopies;
 	cout << " Enter Title: ";
-	cin >> ztitle;
+	getline(cin, ztitle);
 	cout << " Enter Author(s): ";
-	cin >> zauthor;
+	getline(cin, zauthor);
 	cout << " Enter ISBN: ";
-	cin >> zisbn;
+	getline(cin, zisbn);
 	cout << " Enter Publication Year: ";
-	cin >> zpublicationYear;
+	getline(cin, zpublicationYear);
 	cout << " Enter number of Total Copies: ";
-	cin >> ztotalCopies;
+	getline(cin, ztotalCopies);
 	cout << " Enter number of Available Copies: ";
-	cin >> zavailableCopies;
+	getline(cin, zavailableCopies);
 	cout << " Enter Category: ";
-	cin >> zcategory;
+	getline(cin, zcategory);
 
-	Book* zbook = new Book(ztitle, zauthor, zisbn, zpublicationYear, ztotalCopies, zavailableCopies);
+	Book* zbook = new Book(ztitle, zauthor, zisbn, stoi(zpublicationYear) , stoi(ztotalCopies) , stoi(zavailableCopies));
 	Node* znode = libTree->createNode(zcategory);
 	znode->books.push_back(zbook);
 	while(znode != NULL) {
