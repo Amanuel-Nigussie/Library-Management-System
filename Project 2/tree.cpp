@@ -26,6 +26,7 @@ string Node::getCategory( Node* node)
 	while (node->parent != NULL) {
 		category = node->name + "/ " + category;
 	}
+	return category;
 }
 //============================================================================
 
@@ -68,19 +69,21 @@ void Tree::insert(Node* node, string name)
 
 void Tree::remove(Node* node, string child_name)
 {
-	for (int i = 0; i < node->children.size(); i++) {
-		if (node->children[i]->name == child_name) {
-			int count = node->children[i]->bookCount;
-			delete node->children[i];
-			node->children.erase(i);
-			node->children.shrink_to_fit();
-			while(node != NULL) {
-				updateBookCount(node, -count);
-				node = node->parent;
+	if (node != NULL) {
+		for (int i = 0; i < node->children.size(); i++) {
+			if (node->children[i]->name == child_name) {
+				int count = node->children[i]->bookCount;
+				delete node->children[i];
+				node->children.erase(i);
+				node->children.shrink_to_fit();
+				while (node != NULL) {
+					updateBookCount(node, -count);
+					node = node->parent;
+				}
 			}
 		}
 	}
-	throw runtime_error("Child not found");
+	throw runtime_error("node not found");
 }
 //============================================================================
 
@@ -251,6 +254,7 @@ int Tree::exportData(Node* node, ofstream& file)
 			 << node->books[i]->available_copies << endl;
 		count++;
 	}
+	return count;
 }
 //============================================================================
 
