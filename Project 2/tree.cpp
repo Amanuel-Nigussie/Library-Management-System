@@ -63,7 +63,6 @@ void Tree::insert(Node* node, string name)
 	Node* new_node = new Node(name);     
 	new_node->parent = node;    
 	node->children.push_back(new_node); 
-	updateBookCount(node, new_node->bookCount);
 }
 //============================================================================
 
@@ -242,17 +241,15 @@ int Tree::exportData(Node* node, ofstream& file)
 
 Book* Tree::searchBook(Node* node , string bookTitle)
 {
-	for (int i = 0; i < node->books.size(); i++) {
-		if (node->books[i]->title == bookTitle) {
-			return node->books[i];
-		}
+	Book* zbook = findBook(node, bookTitle);
+	if (zbook != NULL) {
+		return zbook;
 	}
+
 	for (int i = 0; i < node->children.size(); i++) {
-		Book* book = searchBook(node->children[i], bookTitle);
-		if (book != NULL) {
-			return book;
-		}
+		searchBook(node->children[i], bookTitle);
 	}
+
 	return NULL;
 }
 //============================================================================

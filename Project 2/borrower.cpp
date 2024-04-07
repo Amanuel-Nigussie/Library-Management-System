@@ -18,6 +18,11 @@ Borrower::Borrower(string name, string id)
 
 void Borrower::listBooks() 
 {
+	if(books_borrowed.size() == 0) {
+		cout << "No books borrowed by " << name << "( " << id << " )" << endl;
+		return;
+	}
+
 	cout << "Books borrowed by " << name << "( " << id << " ): " << endl;
 	for (int i = 0; i < books_borrowed.size(); i++) {
 		cout << i << ": " << books_borrowed[i]->title << endl;
