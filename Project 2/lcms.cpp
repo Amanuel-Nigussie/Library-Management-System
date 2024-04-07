@@ -46,8 +46,8 @@ int LCMS::import(string path) //import books from a csv file
 		getline(line, zavailableCopies, ',');
 
 		Book* zbook = new Book(ztitle, zauthor, zisbn, stoi(zpublicationYear), stoi(ztotalCopies), stoi(zavailableCopies));
-		libTree->createNode(zcategory);
-		Node* znode = libTree->getNode(zcategory);
+		
+		Node* znode = libTree->createNode(zcategory);
 		znode->books.push_back(zbook);
 		count++;
 	}
@@ -66,17 +66,16 @@ void LCMS::exportData(string path)     //export all books to a given file
 	}
 	zfile << "Title,Author,ISBN,Publication Year,Category,Total Copies,Available Copies" << endl;
 
-	MyVector<Node*>* temp;  
+	MyVector<Node*>* temp = new MyVector<Node*>(0);  
 	temp->push_back(libTree->getRoot());  
 
 	while (temp->size() != 0)
 	{
 		for (int n = temp->size(); n > 0; n--) {
-			// Dequeue an item from queue and print it
+			
 			Node* p = temp->at(0);
 			delete temp->at(0);
 			temp->erase(0);
-			temp->shrink_to_fit();
 			count += libTree->exportData(p, zfile);
 
 			for (int i = 0; i < p->children.size(); i++)
@@ -102,5 +101,135 @@ void LCMS::findAll(string category) //display all books of a category
 
 void LCMS::findBook(string bookTitle) //Find a given book and display its details
 {
+	Book* zbook = NULL;
+
+	MyVector<Node*>* temp = new MyVector<Node*>(0);
+	temp->push_back(libTree->getRoot());
+
+	while( temp->size() != 0)
+	{
+		for (int n = temp->size(); n > 0; n--) {
+			Node* p = temp->at(0);
+			delete temp->at(0);
+			temp->erase(0);
+			zbook = libTree->findBook(p, bookTitle);
+			if (zbook != NULL) {
+				for( int i = 0; i < temp->size(); i++)
+				{
+					delete temp->at(i);
+				}
+				zbook->display();
+				return;
+			}
+			for (int i = 0; i < p->children.size(); i++)
+				temp->push_back(p->children[i]);
+		}
+	}
+	delete temp;
+	throw runtime_error("Book not found");
+}
+//============================================================================
+
+void LCMS::addBook()
+{
+	string ztitle, zauthor, zisbn, zcategory;
+	int zpublicationYear, ztotalCopies, zavailableCopies;
+
+	cout << " Enter Title: ";
+	cin >> ztitle;
+	cout << " Enter Author(s): ";
+	cin >> zauthor;
+	cout << " Enter ISBN: ";
+	cin >> zisbn;
+	cout << " Enter Publication Year: ";
+	cin >> zpublicationYear;
+	cout << " Enter number of Total Copies: ";
+	cin >> ztotalCopies;
+	cout << " Enter number of Available Copies: ";
+	cin >> zavailableCopies;
+	cout << " Enter Category: ";
+	cin >> zcategory;
+
+	Book* zbook = new Book(ztitle, zauthor, zisbn, zpublicationYear, ztotalCopies, zavailableCopies);
+	Node* znode = libTree->createNode(zcategory);
+	znode->books.push_back(zbook);
+
+	cout << zbook->title << " has been successfully added into the Catalog" << endl;
+}
+//============================================================================
+
+void LCMS::editBook(string bookTitle)
+{
+	Book* zbook = NULL;
+
+	MyVector<Node*>* temp = new MyVector<Node*>(0);
+	temp->push_back(libTree->getRoot());
+
+	while (temp->size() != 0 && zbook == NULL)
+	{
+		for (int n = temp->size(); n > 0; n--) {
+			Node* p = temp->at(0);
+			delete temp->at(0);
+			temp->erase(0);
+			zbook = libTree->findBook(p, bookTitle);
+			
+			for (int i = 0; i < p->children.size(); i++)
+				temp->push_back(p->children[i]);
+		}
+	}
+
+	if (zbook == NULL) {
+		for (int i = 0; i < temp->size(); i++)
+		{
+			delete temp->at(i);
+		}
+		delete temp;
+		throw runtime_error("Book not found");
+	}
+	while (true)
+	{
+		cout << setw(7) << left << "1:" << "Title" << endl
+			 << setw(7) << left << "2:" << "Author" << endl
+			 << setw(7) << left << "3:" << "ISBN" << endl
+			 << setw(7) << left << "4:" << "Publication Year" << endl
+			 << setw(7) << left << "5:" << "Total Copies" << endl
+			 << setw(7) << left << "6:" << "Available Copies" << endl
+			 << setw(7) << left << "7:" << "exit" << endl
+			 << "Choose the number of the field you want to edit: ";
+		int choice;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			cout << "Enter new Title: ";
+			cin >> zbook->title;
+			break;
+		case 2:
+			cout << "Enter new Author(s): ";
+			cin >> zbook->author;
+			break;
+		case 3:
+			cout << "Enter new ISBN: ";
+			cin >> zbook->isbn;
+			break;
+		case 4:
+			cout << "Enter new Publication Year: ";
+			cin >> zbook->publication_year;
+			break;
+		case 5:
+			cout << "Enter new Total Copies: ";
+			cin >> zbook->total_copies;
+			break;
+		case 6:
+			cout << "Enter new Available Copies: ";
+			cin >> zbook->available_copies;
+			break;
+		case 7:
+			return;
+		default:
+			cout << "Invalid choice" << endl;
+			break;
+		}
+	}
 
 }
