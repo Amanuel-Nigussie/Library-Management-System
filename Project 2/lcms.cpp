@@ -179,13 +179,14 @@ void LCMS::editBook(string bookTitle)
 	}
 
 	if (zbook == NULL) {
-		for (int i = 0; i < temp->size(); i++)
-		{
-			delete temp->at(i);
-		}
 		delete temp;
 		throw runtime_error("Book not found");
 	}
+	for (int i = 0; i < temp->size(); i++)
+	{
+		delete temp->at(i);
+	}
+	delete temp;
 	while (true)
 	{
 		cout << setw(7) << left << "1:" << "Title" << endl
@@ -231,5 +232,60 @@ void LCMS::editBook(string bookTitle)
 			break;
 		}
 	}
+
+}
+//============================================================================
+
+void LCMS::borrowBook(string bookTitle)
+{
+	Book* zbook = NULL;
+
+	MyVector<Node*>* temp = new MyVector<Node*>(0);
+	temp->push_back(libTree->getRoot());
+
+	while (temp->size() != 0 && zbook == NULL)
+	{
+		for (int n = temp->size(); n > 0; n--) {
+			Node* p = temp->at(0);
+			delete temp->at(0);
+			temp->erase(0);
+			zbook = libTree->findBook(p, bookTitle);
+
+			for (int i = 0; i < p->children.size(); i++)
+				temp->push_back(p->children[i]);
+		}
+	}
+
+	if (zbook == NULL) {
+		delete temp;
+		throw runtime_error("Book not found");
+	}
+	for (int i = 0; i < temp->size(); i++)
+	{
+		delete temp->at(i);
+	}
+	delete temp;
+
+	if (zbook->available_copies == 0) {
+		throw runtime_error("No available copies");
+	}
+	zbook->available_copies--;
+
+	string zname, zid;
+
+	cout << " Enter borrower's name  : ";
+	cin >> zname;
+	cout << " Enter borrower's ID    : ";
+	cin >> zid;
+
+	Borrower* zborrower = new Borrower(zname, zid);
+	zborrower->books_borrowed.push_back(zbook);
+    
+	borrowers.push_back(zborrower);
+    zbook->currentBorrowers.push_back(zborrower);
+	zbook->allBorrowers.push_back(zborrower);
+   
+
+	cout << "Book " << zbook->title << "has been successfully issued to " << zborrower->name << endl;
 
 }

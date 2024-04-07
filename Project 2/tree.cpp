@@ -240,3 +240,19 @@ int Tree::exportData(Node* node, ofstream& file)
 }
 //============================================================================
 
+Book* Tree::searchBook(Node* node , string bookTitle)
+{
+	for (int i = 0; i < node->books.size(); i++) {
+		if (node->books[i]->title == bookTitle) {
+			return node->books[i];
+		}
+	}
+	for (int i = 0; i < node->children.size(); i++) {
+		Book* book = searchBook(node->children[i], bookTitle);
+		if (book != NULL) {
+			return book;
+		}
+	}
+	return NULL;
+}
+//============================================================================

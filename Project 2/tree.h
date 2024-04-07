@@ -62,6 +62,7 @@ public:	 	//Required methods
 	void print();			//Print all categories/sub-categories of a the tree. see output of list command (please use the implementation given below)
 	void print_helper(string padding, string pointer, Node* node); // helper method for the print() (please use the implementation given below)
 	int exportData(Node* node, ofstream& file);		//Export all books of a given node to a specific file.
+	Book* searchBook(Node* node, string bookTitle);	//search a book in a given node and its children recursively
 	//bool isEmpty();									//return true if the tree is empty false otherwise
 };
 /*
