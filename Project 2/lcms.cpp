@@ -33,17 +33,42 @@ int LCMS::import(string path) //import books from a csv file
 	}
 
 	string line;
-	getline(zfile, line);
 	while (getline(zfile, line)) {
-		stringstream line;
-		string ztitle, zauthor, zisbn, zpublicationYear, zcategory, ztotalCopies, zavailableCopies;
-		getline(line, ztitle, ',');
-		getline(line, zauthor, ',');
-		getline(line, zisbn, ',');
-		getline(line, zpublicationYear, ',');
-		getline(line, zcategory, ',');
-		getline(line, ztotalCopies, ',');
-		getline(line, zavailableCopies, ',');
+
+		stringstream ss(line);
+		string zword;
+
+		// Title
+		getline(ss, zword, ',');
+		string ztitle = zword;
+		if (ztitle[0] == '"') {
+			getline(ss, zword, '"');
+			ztitle = ztitle.substr(1) + "," + zword;
+			getline(ss, zword, ',');
+		}
+
+		getline(ss, zword, ',');
+		string zauthor = zword;
+		if (zauthor[0] == '"') {
+			getline(ss, zword, '"');
+			zauthor = zauthor.substr(1) + "," + zword;
+			getline(ss, zword, ',');
+		}
+
+		getline(ss, zword, ',');
+		string zisbn = zword;
+
+		getline(ss, zword, ',');
+		string zpublicationYear = zword;
+
+		getline(ss, zword, ',');
+		string zcategory = zword;
+
+		getline(ss, zword, ',');
+		string ztotalCopies = zword;
+
+		getline(ss, zword, ',');
+		string zavailableCopies = zword;
 
 		Book* zbook = new Book(ztitle, zauthor, zisbn, stoi(zpublicationYear), stoi(ztotalCopies), stoi(zavailableCopies));
 		
