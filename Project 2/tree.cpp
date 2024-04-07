@@ -70,14 +70,17 @@ void Tree::remove(Node* node, string child_name)
 {
 	for (int i = 0; i < node->children.size(); i++) {
 		if (node->children[i]->name == child_name) {
-			updateBookCount(node, -node->children[i]->bookCount);
+			int count = node->children[i]->bookCount;
 			delete node->children[i];
-	        node->children.erase(i);
+			node->children.erase(i);
 			node->children.shrink_to_fit();
-			return;
+			while(node != NULL) {
+				updateBookCount(node, -count);
+				node = node->parent;
+			}
 		}
 	}
-	cout << "Child not found" << endl;
+	throw runtime_error("Child not found");
 }
 //============================================================================
 
@@ -165,10 +168,22 @@ bool Tree::removeBook(Node* node, string bookTitle)
 {
 	for (int i = 0; i < node->books.size(); i++) {
 		if (node->books[i]->title == bookTitle) {
+			string choice;
+			cout << "Are you sure you want to delete the book " << bookTitle << "? (yes / no): ";
+			cin >> choice;
+			if (choice == "yes") {
+				cout << "Deleting book " << bookTitle << " from the library" << endl;
+				delete node->books[i];
+				node->books.erase(i);
+				node->books.shrink_to_fit();
+				return true;
+			}
+			else {
+				throw runtime_error("Book not deleted");
+			}
 			delete node->books[i];
 			node->books.erase(i);
 			node->books.shrink_to_fit();
-			updateBookCount(node, -1);
 			return true;
 		}
 	}

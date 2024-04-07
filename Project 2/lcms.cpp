@@ -74,12 +74,12 @@ void LCMS::exportData(string path)     //export all books to a given file
 		for (int n = temp->size(); n > 0; n--) {
 			
 			Node* p = temp->at(0);
-			delete temp->at(0);
 			temp->erase(0);
 			count += libTree->exportData(p, zfile);
 
-			for (int i = 0; i < p->children.size(); i++)
+			for (int i = 0; i < p->children.size(); i++) {
 				temp->push_back(p->children[i]);
+			}
 		}
 	}
 	delete temp;
@@ -132,10 +132,9 @@ void LCMS::addBook()
 	Book* zbook = new Book(ztitle, zauthor, zisbn, zpublicationYear, ztotalCopies, zavailableCopies);
 	Node* znode = libTree->createNode(zcategory);
 	znode->books.push_back(zbook);
-	libTree->updateBookCount(znode, 1);
-	while(znode->parent != NULL) {
-		znode = znode->parent;
+	while(znode != NULL) {
 		libTree->updateBookCount(znode, 1);
+		znode = znode->parent;
 	}
 
 	cout << zbook->title << " has been successfully added into the Catalog" << endl;
@@ -322,3 +321,71 @@ void LCMS::listBooks(string borrower_name_id)
 }
 //============================================================================
 
+void LCMS::removeBook(string bookTitle)
+{
+	MyVector<Node*>* temp = new MyVector<Node*>(0);
+	temp->push_back(libTree->getRoot());
+	bool removed = false;
+
+	while (temp->size() != 0)
+	{
+		for (int n = temp->size(); n > 0; n--) {
+
+			Node* p = temp->at(0);
+			temp->erase(0);
+			
+			removed = libTree->removeBook(p, bookTitle);
+
+			if (removed) {
+				while(p->parent != NULL) {
+					libTree->updateBookCount(p, -1);
+					p = p->parent;
+				}
+
+				for (int i = 0; i < temp->size(); i++) {
+					temp->erase(i);
+				}
+				delete temp;
+				cout << bookTitle << " has been successfully deleted" << endl;
+				return;
+			}
+
+			for (int i = 0; i < p->children.size(); i++) {
+				temp->push_back(p->children[i]);
+			}
+		}
+	}
+	delete temp;
+    throw runtime_error("Book not found");	
+}
+//============================================================================
+
+void LCMS::addCategory(string category)
+{
+	Node* znode = libTree->createNode(category);
+	cout << category << " has been successfully created" << endl;
+}
+//============================================================================
+
+void LCMS::findCategory(string category)
+{
+	Node* znode = libTree->getNode(category);
+	if (znode == NULL) {
+		throw runtime_error("No such category has been found");
+	}
+	cout << "Category" << category << " has been found in the catalog" << endl;
+}
+//============================================================================
+
+void LCMS::removeCategory(string category)
+{
+	Node* znode = libTree->getNode(category);
+	if (znode == NULL) {
+		throw runtime_error("No such category has been found");
+	}
+	if (znode->books.size() > 0) {
+		throw runtime_error("Category is not empty");
+	}
+	libTree->removeNode(znode);
+	cout << category << " has been successfully deleted" << endl;
+}
