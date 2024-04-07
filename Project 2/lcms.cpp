@@ -383,9 +383,26 @@ void LCMS::removeCategory(string category)
 	if (znode == NULL) {
 		throw runtime_error("No such category has been found");
 	}
-	if (znode->books.size() > 0) {
-		throw runtime_error("Category is not empty");
-	}
-	libTree->removeNode(znode);
+
+	Node* zparent = znode->parent;
+	libTree->remove(zparent, category);
 	cout << category << " has been successfully deleted" << endl;
 }
+//============================================================================
+
+void LCMS::editCategory(string category)
+{
+	Node* znode = libTree->getNode(category);
+	if (znode == NULL) {
+		throw runtime_error("No such category has been found");
+	}
+
+	string newCategory;
+	cout << "Enter new category name: ";
+	cin >> newCategory;
+
+	znode->name = newCategory;
+	cout << category << " has been successfully renamed to " << newCategory << endl;
+}
+//============================================================================
+
