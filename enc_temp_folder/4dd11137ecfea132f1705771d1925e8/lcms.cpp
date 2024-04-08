@@ -264,7 +264,7 @@ void LCMS::borrowBook(string bookTitle)
 	zbook->allBorrowers.push_back(zborrower);
    
 
-	cout << "Book " << zbook->title << " has been successfully issued to " << zborrower->name << endl;
+	cout << "Book " << zbook->title << "has been successfully issued to " << zborrower->name << endl;
 
 }
 //============================================================================
@@ -346,7 +346,7 @@ void LCMS::listBooks(string borrower_name_id)
 
 	Borrower* zborrower = NULL;
 	for (int i = 0; i < borrowers.size(); i++) {
-		if (borrowers[i]->name == zname && borrowers[i]->id == zid) {
+		if (borrowers[i]->name == zname || borrowers[i]->id == zid) {
 			zborrower = borrowers[i];
 			break;
 		}

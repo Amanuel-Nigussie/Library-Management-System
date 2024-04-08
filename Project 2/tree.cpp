@@ -80,7 +80,7 @@ void Tree::remove(Node* node, string child_name)
 				updateBookCount(node, -count);
 				node = node->parent;
 			}
-			return;
+		return;
 		}
 	}
 	throw runtime_error("node not found");
@@ -99,15 +99,8 @@ Node* Tree::getNode(string Path)
 	stringstream s(Path);
 	string destination;
 	while (getline(s, destination, '/')) {
-		bool found = false;
-		for (int i = 0; i < current->children.size(); i++) {
-			if (current->children[i]->name == destination) {
-				current = current->children[i];
-				found = true;
-				break;
-			}
-		}
-		if (!found) {
+		current = getChild(current, destination);
+		if (current == NULL) {
 			return NULL;
 		}
 	}
@@ -118,20 +111,17 @@ Node* Tree::getNode(string Path)
 Node* Tree::createNode(string path)
 {
 	Node* current = this->root;
+	Node* zchild = NULL;
 	stringstream s(path);
 	string destination;
 	while (getline(s, destination, '/')) {
-		bool found = false;
-		for (int i = 0; i < current->children.size(); i++) {
-			if (current->children[i]->name == destination) {
-				current = current->children[i];
-				found = true;
-				break;
-			}
-		}
-		if (!found) {
+		zchild = getChild(current, destination);
+		if (zchild == NULL) {
 			insert(current, destination);
 			current = current->children[current->children.size() - 1];
+		}
+		else {
+			current = zchild;
 		}
 	}
 	return current;
