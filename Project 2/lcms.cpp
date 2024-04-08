@@ -189,32 +189,41 @@ void LCMS::editBook(string bookTitle)
 			 << setw(7) << left << "7:" << "exit" << endl
 			 << "Choose the number of the field you want to edit: ";
 		int choice;
+		int newPublicationYear, newTotalCopies, newAvailableCopies;
+		string newTitle, newAuthor, newIsbn;
 		cin >> choice;
+		cin.ignore();
 		switch (choice)
 		{
 		case 1:
 			cout << "Enter new Title: ";
-			cin >> zbook->title;
+			getline(cin, newTitle);
+			zbook->title = newTitle;
 			break;
 		case 2:
 			cout << "Enter new Author(s): ";
-			cin >> zbook->author;
+			getline(cin, newAuthor);
+			zbook->author = newAuthor;
 			break;
 		case 3:
 			cout << "Enter new ISBN: ";
-			cin >> zbook->isbn;
+			getline(cin, newIsbn);
+			zbook->isbn = newIsbn;
 			break;
 		case 4:
 			cout << "Enter new Publication Year: ";
-			cin >> zbook->publication_year;
+			cin >> newPublicationYear;
+			zbook->publication_year = newPublicationYear;
 			break;
 		case 5:
 			cout << "Enter new Total Copies: ";
-			cin >> zbook->total_copies;
+			cin >> newTotalCopies;
+			zbook->total_copies = newTotalCopies;
 			break;
 		case 6:
 			cout << "Enter new Available Copies: ";
-			cin >> zbook->available_copies;
+			cin >> newAvailableCopies;
+			zbook->available_copies = newAvailableCopies;
 			break;
 		case 7:
 			return;
@@ -354,34 +363,20 @@ void LCMS::removeBook(string bookTitle)
 {
 	MyVector<Node*>* temp = new MyVector<Node*>(0);
 	temp->push_back(libTree->getRoot());
-	bool removed = false;
 
 	while (temp->size() != 0)
 	{
-		for (int n = temp->size(); n > 0; n--) {
-
-			Node* p = temp->at(0);
-			temp->erase(0);
+		Node* p = temp->at(0);
+		temp->erase(0);
 			
-			removed = libTree->removeBook(p, bookTitle);
+		if (libTree->removeBook(p, bookTitle)) {
+			delete temp;
+			cout << bookTitle << " has been successfully deleted" << endl;
+			return;
+		}
 
-			if (removed) {
-				while(p->parent != NULL) {
-					libTree->updateBookCount(p, -1);
-					p = p->parent;
-				}
-
-				for (int i = 0; i < temp->size(); i++) {
-					temp->erase(i);
-				}
-				delete temp;
-				cout << bookTitle << " has been successfully deleted" << endl;
-				return;
-			}
-
-			for (int i = 0; i < p->children.size(); i++) {
-				temp->push_back(p->children[i]);
-			}
+		for (int i = 0; i < p->children.size(); i++) {
+			temp->push_back(p->children[i]);
 		}
 	}
 	delete temp;
@@ -400,9 +395,9 @@ void LCMS::findCategory(string category)
 {
 	Node* znode = libTree->getNode(category);
 	if (znode == NULL) {
-		throw runtime_error("No such category has been found");
+		throw runtime_error("No such category has been found!");
 	}
-	cout << "Category" << category << " has been found in the catalog" << endl;
+	cout << "Category " << category << " has been found in the catalog" << endl;
 }
 //============================================================================
 
@@ -414,8 +409,8 @@ void LCMS::removeCategory(string category)
 	}
 
 	Node* zparent = znode->parent;
-	libTree->remove(zparent, category);
-	cout << category << " has been successfully deleted" << endl;
+	libTree->remove(zparent, znode->name);
+	cout << znode->name << " has been successfully deleted" << endl;
 }
 //============================================================================
 

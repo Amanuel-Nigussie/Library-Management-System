@@ -172,21 +172,26 @@ bool Tree::removeBook(Node* node, string bookTitle)
 		if (node->books[i]->title == bookTitle) {
 			string choice;
 			cout << "Are you sure you want to delete the book " << bookTitle << "? (yes / no): ";
-			cin >> choice;
-			if (choice == "yes") {
-				cout << "Deleting book " << bookTitle << " from the library" << endl;
-				delete node->books[i];
-				node->books.erase(i);
-				node->books.shrink_to_fit();
-				return true;
+			while (true) {
+				cin >> choice;
+				if (choice == "yes") {
+					cout << "Deleting book " << bookTitle << endl;
+					delete node->books[i];
+					node->books.erase(i);
+					node->books.shrink_to_fit();
+					while (node != NULL) {
+						updateBookCount(node, -1);
+						node = node->parent;
+					}
+					return true;
+				}
+				else if (choice == "no") {
+					throw runtime_error("Book not deleted");
+				}
+				else {
+					cout << "Invalid input! Please enter again (yes/ no): ";
+				}
 			}
-			else {
-				throw runtime_error("Book not deleted");
-			}
-			delete node->books[i];
-			node->books.erase(i);
-			node->books.shrink_to_fit();
-			return true;
 		}
 	}
 	return false;
@@ -274,4 +279,5 @@ Book* Tree::searchBook(Node* node , string bookTitle)
 	return NULL;
 }
 //============================================================================
+
 
