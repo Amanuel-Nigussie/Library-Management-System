@@ -106,10 +106,15 @@ void LCMS::exportData(string path)     //export all books to a given file
 		Node* p = temp->at(0);    // get the first node
 		temp->erase(0);     // remove the first node
 		
-		for(int i = 0; i < p->books.size(); i++) {     // loop through the books
-			zfile << p->books[i]->title << "," << p->books[i]->author << "," << p->books[i]->isbn << "," << p->books[i]->publication_year << "," << p->name << "," << p->books[i]->total_copies << "," << p->books[i]->available_copies << endl;
-			count++;    // increment the count
+		for (int i = 0; i < p->books.size(); i++) {
+			// Enclose title and author fields within double quotation marks
+			zfile << "\"" << p->books[i]->title << "\",\"" << p->books[i]->author << "\","
+				<< p->books[i]->isbn << "," << p->books[i]->publication_year << ","
+				<< p->name << "," << p->books[i]->total_copies << ","
+				<< p->books[i]->available_copies << endl;
+			count++;
 		}
+
 
 		for (int i = 0; i < p->children.size(); i++) {    // loop through the children
 			temp->push_back(p->children[i]);     // push the children to the vector

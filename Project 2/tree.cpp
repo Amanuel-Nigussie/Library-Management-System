@@ -90,7 +90,7 @@ void Tree::remove(Node* node, string child_name)     //remove a specific child f
 
 bool Tree::isRoot( Node* node)    //return true if the given node is the root, false otherwise
 {
-	return(node == this->root);
+	return(node == this->root);     //return true if node is root, false otherwise
 }
 //============================================================================
 
@@ -102,7 +102,7 @@ Node* Tree::getNode(string Path)     //given a path (category/sub-category/sub-c
 	while (getline(s, destination, '/')) {     //while there is a destination
 		current = getChild(current, destination);     //get child
 		if (current == NULL) {     //if current is null
-			return NULL;
+			return NULL;     //return null
 		}
 	}
 	return current;     //return current
@@ -142,7 +142,7 @@ Node* Tree::getChild(Node* ptr, string childname)      //given a node and name o
 
 void Tree::updateBookCount(Node* ptr, int offset)     //update a books count by an offset e.g. +1/-1
 {
-	ptr->bookCount = ptr->bookCount + offset;
+	ptr->bookCount = ptr->bookCount + offset;     //update book count
 }
 //============================================================================
 
@@ -192,8 +192,8 @@ bool Tree::removeBook(Node* node, string bookTitle)     //remove a book from a g
 void Tree::printAll(Node* node)     //printAll books of a node and it children recursively
 {
 	for (int i =0; i < node->books.size(); i++) {     //loop through books
-		cout << setw(13) << left << "Title: " << node->books[i]->title << endl;
-		cout << setw(13) << left << "Author(s): " << node->books[i]->author << endl;
+		cout << setw(13) << left << "Title: " << node->books[i]->title << endl;      //display book details
+		cout << setw(13) << left << "Author(s): " << node->books[i]->author << endl;	
 		cout << setw(13) << left << "ISBN: " << node->books[i]->isbn << endl;
 		cout << setw(13) << left << "Year: " << node->books[i]->publication_year << endl;
 		cout << "-----------------------------------------------------" << endl;
