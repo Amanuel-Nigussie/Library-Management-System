@@ -69,18 +69,18 @@ void Tree::insert(Node* node, string name)
 
 void Tree::remove(Node* node, string child_name)
 {
-	if (node != NULL) {
-		for (int i = 0; i < node->children.size(); i++) {
-			if (node->children[i]->name == child_name) {
-				int count = node->children[i]->bookCount;
-				delete node->children[i];
-				node->children.erase(i);
-				node->children.shrink_to_fit();
-				while (node != NULL) {
-					updateBookCount(node, -count);
-					node = node->parent;
-				}
+	
+	for (int i = 0; i < node->children.size(); i++) {
+		if (node->children[i]->name == child_name) {
+			int count = node->children[i]->bookCount;
+			delete node->children[i];
+			node->children.erase(i);
+			node->children.shrink_to_fit();
+			while (node != NULL) {
+				updateBookCount(node, -count);
+				node = node->parent;
 			}
+			return;
 		}
 	}
 	throw runtime_error("node not found");
